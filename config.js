@@ -3,6 +3,8 @@ export const config = {
   milvus: {
     address: "192.168.31.166", // 替换为您的Milvus服务器地址
     port: "19530", // Milvus服务端口
+    username: "",
+    password: "",
     database: "juejin", // 数据库名称
     collection: "articles", // 集合名称
     vectorDimension: 1024, // 向量维度
