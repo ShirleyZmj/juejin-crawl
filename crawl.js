@@ -6,15 +6,20 @@ export class JuejinCrawler {
     this.apiUrl =
       "https://api.juejin.cn/recommend_api/v1/article/recommend_all_feed";
     this.headers = {
+      // "User-Agent": config.crawler.userAgent,
+      // Accept: "application/json, text/plain, */*",
+      // "Content-Type": "application/json",
+      // Origin: "https://juejin.cn",
+      // "Sec-Fetch-Site": "same-site",
+      // "Sec-Fetch-Mode": "cors",
+      // "Sec-Fetch-Dest": "empty",
+      // Referer: "https://juejin.cn/",
+      // "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
       "User-Agent": config.crawler.userAgent,
-      Accept: "application/json, text/plain, */*",
+      Accept: "application/json",
       "Content-Type": "application/json",
       Origin: "https://juejin.cn",
-      "Sec-Fetch-Site": "same-site",
-      "Sec-Fetch-Mode": "cors",
-      "Sec-Fetch-Dest": "empty",
       Referer: "https://juejin.cn/",
-      "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
     };
   }
 
@@ -25,24 +30,28 @@ export class JuejinCrawler {
   async getArticlesFromAPI() {
     try {
       const payload = {
-        client_type: 2608,
-        cursor: "0",
+        // client_type: 2608,
+        // cursor: "0",
+        // id_type: 2,
+        // limit: 20,
+        // sort_type: 3,
+        // aid: 2608,
+        // uuid: "7238994982991758885",
+        // spider: 0,
         id_type: 2,
+        sort_type: 3, // 热门
+        cursor: "0",
         limit: 20,
-        sort_type: 200,
-        aid: 2608,
-        uuid: "7238994982991758885",
-        spider: 0,
       };
-      console.log("发送请求，payload:", payload);
+      // console.log("发送请求，payload:", payload);
       const response = await axios.post(this.apiUrl, payload, {
         headers: this.headers,
       });
-      console.log("API 响应状态:", response.status);
-      console.log("API 响应数据:", JSON.stringify(response.data, null, 2));
+      // console.log("API 响应状态:", response.status);
+      // console.log("API 响应数据:", JSON.stringify(response.data, null, 2));
       const articles = [];
       const items = response.data.data;
-      console.log("找到的文章数量:", items?.length || 0);
+      // console.log("找到的文章数量:", items?.length || 0);
       items?.forEach((item, index) => {
         if (
           item.item_type === 2 &&
