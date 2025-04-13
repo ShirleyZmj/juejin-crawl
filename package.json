@@ -1,0 +1,27 @@
+{
+  "name": "juejin-crawl",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShirleyZmj/juejin-crawl.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShirleyZmj/juejin-crawl/issues"
+  },
+  "homepage": "https://github.com/ShirleyZmj/juejin-crawl#readme",
+  "description": "",
+  "dependencies": {
+    "@zilliz/milvus2-sdk-node": "^2.5.7",
+    "axios": "^1.8.4",
+    "node-fetch": "^3.3.2"
+  },
+  "type": "module"
+}
