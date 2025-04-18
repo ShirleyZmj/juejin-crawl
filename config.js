@@ -5,7 +5,7 @@ export const config = {
     port: "19530", // Milvus服务端口
     username: "",
     password: "",
-    database: "juejin", // 数据库名称
+    database: "my-juejin", // 数据库名称
     collection: "articles", // 集合名称
     vectorDimension: 1024, // 向量维度
   },

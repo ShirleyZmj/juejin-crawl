@@ -83,6 +83,22 @@ export class MilvusDB {
         dim: this.dimension,
         description: "标题向量",
       },
+      {
+        name: "url",
+        data_type: DataType.VarChar,
+        max_length: 512,
+        description: "文章链接",
+      },
+      {
+        name: "likes",
+        data_type: DataType.Int64,
+        description: "点赞数",
+      },
+      {
+        name: "views",
+        data_type: DataType.Int64,
+        description: "阅读量",
+      },
     ];
 
     await this.client.createCollection({
@@ -122,6 +138,9 @@ export class MilvusDB {
         rank: item.rank,
         title: item.title,
         title_vector: item.title_vector,
+        url: item.url,
+        likes: item.likes,
+        views: item.views,
       };
     });
 
