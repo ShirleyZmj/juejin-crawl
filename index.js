@@ -47,6 +47,10 @@ async function main() {
         rank: article.rank,
         title: article.title,
         title_vector: titleVector,
+        url: article.url,
+        likes: article.likes,
+        views: article.views,
+        briefContent: article.briefContent,
       };
       vectors.push(data);
     } catch (e) {

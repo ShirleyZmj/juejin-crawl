@@ -99,6 +99,12 @@ export class MilvusDB {
         data_type: DataType.Int64,
         description: "阅读量",
       },
+      {
+        name: "briefContent",
+        data_type: DataType.VarChar,
+        max_length: 512,
+        description: "文章摘要",
+      },
     ];
 
     await this.client.createCollection({
@@ -141,6 +147,7 @@ export class MilvusDB {
         url: item.url,
         likes: item.likes,
         views: item.views,
+        briefContent: item.briefContent,
       };
     });
 
@@ -148,6 +155,8 @@ export class MilvusDB {
       collection_name: this.collection,
       fields_data: processedData,
     };
+
+    console.log("插入数据:", insertData);
 
     await this.client.insert(insertData);
   }

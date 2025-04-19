@@ -51,7 +51,7 @@ export class JuejinCrawler {
       // console.log("API 响应数据:", JSON.stringify(response.data, null, 2));
       const articles = [];
       const items = response.data.data;
-      // console.log("找到的文章数量:", items?.length || 0);
+      // console.log("找到的文章:", items);
       items?.forEach((item, index) => {
         if (
           item.item_type === 2 &&
@@ -59,16 +59,30 @@ export class JuejinCrawler {
           item.item_info.article_info
         ) {
           const articleInfo = item.item_info.article_info;
-          const title = articleInfo.title;
+          const {
+            title,
+            view_count,
+            digg_count,
+            hot_index,
+            rank_index,
+            brief_content,
+          } = articleInfo;
 
           if (title) {
             articles.push({
               rank: index + 1,
+              hotIndex: hot_index,
+              rankIndex: rank_index,
               title: title,
+              likes: digg_count,
+              views: view_count,
+              briefContent: brief_content,
+              url: `https://juejin.cn/post/${articleInfo.article_id}`,
             });
           }
         }
       });
+      console.log("找到的文章:", articles);
       return articles;
     } catch (error) {
       console.error("Error fetching articles:", error);

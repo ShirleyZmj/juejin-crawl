@@ -2,7 +2,7 @@ import { JuejinCrawler } from "./crawl.js";
 import { textToVector } from "./utils.js";
 
 async function main() {
-  testEmbedding();
+  testCrawl();
 }
 
 async function testCrawl() {
