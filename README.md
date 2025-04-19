@@ -1,4 +1,4 @@
-[English] | [中文](./README.cn.md)
+English  |  [中文](./README.cn.md)
 
 # Juejin Article Crawler and Vector Retrieval System
 

@@ -1,4 +1,4 @@
-[English](./README.md) | [中文]
+[English](./README.md)  |  中文
 
 # 掘金文章爬虫与向量检索系统
 
