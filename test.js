@@ -9,12 +9,12 @@ async function testCrawl() {
   const crawler = new JuejinCrawler();
   try {
     const articles = await crawler.crawlArticles();
-    console.log("爬取到的文章：");
+    console.log("articles crawled", articles);
     articles?.forEach((article) => {
       console.log(`${article.rank}. ${article.title}`);
     });
   } catch (error) {
-    console.error("爬取失败：", error);
+    console.error("crawl error", error);
   }
 }
 
@@ -23,7 +23,7 @@ async function testEmbedding() {
     const vector = await textToVector("你好");
     console.log(vector);
   } catch (error) {
-    console.error("向量化失败：", error);
+    console.error("embedding error", error);
   }
 }
 

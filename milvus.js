@@ -22,7 +22,7 @@ export class MilvusDB {
     try {
       await this.client.use({ db_name: this.database });
     } catch (error) {
-      console.error("使用数据库失败：", error);
+      console.error("use database error", error);
       throw error;
     }
   }
@@ -39,7 +39,7 @@ export class MilvusDB {
       if (error.message.includes("already exists")) {
         return;
       }
-      console.error("创建数据库失败：", error);
+      console.error("create database error", error);
       throw error;
     }
   }
@@ -69,19 +69,19 @@ export class MilvusDB {
       {
         name: "rank",
         data_type: DataType.Int64,
-        description: "文章排名",
+        description: "rank of article",
       },
       {
         name: "title",
         data_type: DataType.VarChar,
         max_length: 512,
-        description: "文章标题",
+        description: "title of article",
       },
       {
         name: "title_vector",
         data_type: DataType.FloatVector,
         dim: this.dimension,
-        description: "标题向量",
+        description: "title vector",
       },
     ];
 
@@ -93,16 +93,16 @@ export class MilvusDB {
     await this.client.createIndex({
       collection_name: this.collection,
       field_name: "title_vector",
-      index_type: "HNSW", // HNSW 是基于图的索引类型
-      metric_type: "COSINE", // COSINE 是余弦相似度
+      index_type: "HNSW", // HNSW is the type of index based on graph
+      metric_type: "COSINE", // COSINE is the metric type of cosine similarity
       params: {
-        // 索引参数
-        M: 8, // 每个节点的邻居数
-        efConstruction: 64, // 构建索引时考虑的邻居数
+        // index parameters
+        M: 8, // the number of neighbors of each node
+        efConstruction: 64, // the number of neighbors considered when building the index
       },
     });
 
-    // 加载集合, 确保索引构建完成, 从磁盘加载到内存
+    // load collection, ensure the index is built, and load from disk to memory
     await this.client.loadCollection({
       collection_name: this.collection,
     });

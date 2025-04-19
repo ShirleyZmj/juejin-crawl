@@ -3,45 +3,45 @@ import { MilvusDB } from "./milvus.js";
 import { textToVector, log } from "./utils.js";
 
 async function main() {
-  log("开始爬取掘金文章...");
+  log("start to crawl juejin articles...");
   const crawler = new JuejinCrawler();
   const db = new MilvusDB();
   let milvusConnected = false;
 
   try {
-    log("初始化 Milvus 数据库...");
+    log("initialize milvus database...");
     await db.init();
-    log("正在清空现有集合...");
+    log("clearing existing collection...");
     await db.dropCollection();
-    log("正在创建集合...");
+    log("creating collection...");
     await db.createCollection();
     milvusConnected = true;
-    log("Milvus 数据库连接成功");
+    log("milvus database connected");
   } catch (error) {
-    log(`Milvus 数据库连接失败: ${error.message}, 程序结束`);
+    log(`milvus database connection failed: ${error.message}, program end`);
     milvusConnected = false;
     return;
   }
 
-  log("开始爬取掘金热门文章...");
+  log("start to crawl juejin hot articles...");
   const articles = await crawler.crawlArticles();
-  log(`爬取到 ${articles.length} 篇文章`);
+  log(`crawled ${articles.length} articles`);
 
   if (articles.length === 0) {
-    log("没有爬取到任何文章, 程序结束");
+    log("no articles crawled, program end");
     if (milvusConnected) {
       await closeMilvusConnection(db);
     }
     return;
   }
 
-  log("开始处理文章数据和生成向量...");
+  log("start to process article data and generate vectors...");
   const vectors = [];
 
   for (let i = 0; i < articles.length; i++) {
     const article = articles[i];
     try {
-      log(`正在处理第 ${i + 1} / ${articles.length} 篇文章: ${article.title}`);
+      log(`processing ${i + 1} / ${articles.length} article: ${article.title}`);
       const titleVector = await textToVector(article.title);
       const data = {
         rank: article.rank,
@@ -50,33 +50,35 @@ async function main() {
       };
       vectors.push(data);
     } catch (e) {
-      log(`处理第 ${i + 1} / ${articles.length} 篇文章失败: ${e.message}`);
+      log(
+        `failed to process ${i + 1} / ${articles.length} article: ${e.message}`
+      );
       continue;
     }
   }
 
-  log(`向量生成完成, 共成功处理 ${vectors.length} 篇文章`);
+  log(`vectors generated, successfully processed ${vectors.length} articles`);
 
   if (vectors.length > 0) {
-    log("开始将数据插入 Milvus 数据库...");
+    log("start to insert data into milvus database...");
     await db.insertData(vectors);
-    log("数据库插入完成");
+    log("database insertion completed");
   }
 
   if (milvusConnected) {
     await closeMilvusConnection(db);
   }
 
-  log("程序执行完成");
+  log("program completed");
 }
 
 async function closeMilvusConnection(db) {
-  log("开始关闭 Milvus 数据库连接...");
+  log("start to close milvus database connection...");
   await db.close();
-  log("Milvus 数据库连接关闭完成");
+  log("milvus database connection closed");
 }
 
 main().catch((error) => {
-  log(`程序执行失败: ${error.message}`);
+  log(`program failed: ${error.message}`);
   process.exit(1);
 });
